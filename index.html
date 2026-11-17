@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CWM Benchmark | Prompt to Video</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18212a;
+      --muted: #66727a;
+      --line: #d8dfe1;
+      --paper: #f5f7f6;
+      --white: #fff;
+      --teal: #087f79;
+      --copper: #b95533;
+      --blue: #356ab8;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button { font: inherit; cursor: pointer; }
+    .shell { max-width: 1500px; margin: auto; padding: 28px clamp(16px, 3vw, 48px) 70px; }
+    header { display: flex; align-items: end; justify-content: space-between; gap: 18px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+    .eyebrow { color: var(--teal); font-size: 11px; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+    h1 { margin: 2px 0 0; font-size: clamp(25px, 3vw, 38px); line-height: 1.1; letter-spacing: 0; }
+    .meta { color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+    h2 { font-size: 20px; line-height: 1.3; margin: 0; letter-spacing: 0; }
+    p { margin: 0; }
+    .section-head { display: flex; align-items: baseline; gap: 14px; margin: 32px 0 14px; }
+    .section-head span, .caption, .small { color: var(--muted); font-size: 12px; }
+    .diagram { display: block; width: 100%; max-height: 570px; object-fit: contain; background: #101b25; border: 1px solid var(--line); }
+    .pipeline { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+    .pipeline b { color: var(--ink); font-weight: 650; }
+    .pipeline i { color: var(--copper); font-style: normal; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid var(--line); margin-top: 12px; }
+    .tab { border: 1px solid transparent; border-bottom: 0; background: transparent; padding: 11px 14px; color: var(--muted); border-radius: 5px 5px 0 0; min-height: 44px; }
+    .tab:hover { color: var(--ink); }
+    .tab[aria-selected="true"] { color: var(--ink); font-weight: 700; background: var(--white); border-color: var(--line); box-shadow: 0 2px var(--white); }
+    .case { padding-top: 23px; }
+    .case-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 9px 15px; margin-bottom: 18px; }
+    .case-head h3 { font-size: 23px; line-height: 1.2; margin: 0; }
+    .pill { border: 1px solid var(--line); color: var(--muted); padding: 3px 8px; font-size: 12px; border-radius: 3px; }
+    .source-row { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(280px, 2fr); gap: 20px; align-items: start; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+    figure { margin: 0; }
+    .source-row img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #101b25; }
+    figcaption { padding-top: 6px; font-size: 12px; color: var(--muted); }
+    .prompt-facts { display: grid; grid-template-columns: 105px 1fr; gap: 6px 16px; font-size: 13px; }
+    .prompt-facts dt { color: var(--muted); }
+    .prompt-facts dd { margin: 0; overflow-wrap: anywhere; }
+    .panel-head { display: flex; justify-content: space-between; gap: 14px; align-items: center; margin: 24px 0 12px; }
+    .panel-head h4 { margin: 0; font-size: 16px; }
+    .segmented { display: inline-flex; border: 1px solid var(--line); background: var(--white); border-radius: 4px; padding: 3px; gap: 2px; }
+    .segmented button { border: 0; border-radius: 3px; min-width: 85px; padding: 6px 9px; background: transparent; color: var(--muted); }
+    .segmented button[aria-pressed="true"] { background: #e1f0ed; color: #075a56; font-weight: 700; }
+    .video-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .video-tile { min-width: 0; background: var(--white); border: 1px solid var(--line); }
+    .video-tile video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #101b25; }
+    .video-title { padding: 9px 11px 0; font-size: 13px; font-weight: 700; }
+    .video-tile .caption { padding: 0 11px 10px; }
+    .note { margin: 20px 0 0; padding: 10px 13px; border-left: 3px solid var(--copper); background: #fff7f2; color: #6e4436; font-size: 12px; }
+    footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    footer a { color: var(--blue); }
+    @media (max-width: 850px) {
+      header { align-items: start; flex-direction: column; }
+      .meta { text-align: left; }
+      .source-row { grid-template-columns: 1fr; }
+      .source-row img { max-height: 320px; }
+      .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 540px) {
+      .section-head, .panel-head { align-items: start; flex-direction: column; }
+      .tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tab { text-align: left; border: 1px solid var(--line); border-radius: 3px; }
+      .tab[aria-selected="true"] { box-shadow: inset 3px 0 var(--teal); }
+      .video-grid { grid-template-columns: 1fr; }
+      .prompt-facts { grid-template-columns: 75px 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div><div class="eyebrow">Research visualization · seed 17</div><h1>CWM Benchmark</h1></div>
+      <div class="meta">Prompt → RGB / Depth / Object-ID → Video<br>5 cases · 5–60 s · exploratory showcase</div>
+    </header>
+    <section aria-labelledby="prompt-title">
+      <div class="section-head"><h2 id="prompt-title">Prompt 当前构成</h2><span>结构化任务到分段视频条件</span></div>
+      <img class="diagram" src="prompt_structure.png" alt="来源数据经过 task.json 的场景、实体、相机、事件、目标与时长，导出 agent 和 video 输入，再生成三类参考与分段视频">
+      <div class="pipeline"><b>task.json</b><i>→</i><b>prompt_v1 / agent_input / video_input</b><i>→</i><b>共享 Blender 场景的三路参考</b><i>→</i><b>每 5 秒续接</b></div>
+    </section>
+    <section aria-labelledby="cases-title">
+      <div class="section-head"><h2 id="cases-title">五个实例</h2><span>选择案例与参考表示，直接对照生成视频</span></div>
+      <div class="tabs" role="tablist" aria-label="实例" id="tabs"></div>
+      <div id="case-view" role="tabpanel"></div>
+    </section>
+    <footer>
+      COCO 图像 351530：<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>；ViZDoom / Freedoom 与 WBench 请参见各自来源许可。VideoCoCo 素材传播条款仍待核定，本页为研究展示；视频不构成模型排序或正式评测。MiniMax-H3 输出未在公开站点分发。
+    </footer>
+  </main>
+  <script>
+    const cases = [
+      { id: "physics_boiling", name: "沸腾与泡沫", duration: 5, source: "VideoCoCo · v3k_1552_boiling", image: "png", kind: "proxy frame", scene: "浅圆锅内的液体沸腾，泡沫由局部形成、合并并覆盖表面。", camera: "固定俯视三分之四视角", events: "0–1.3 s 气泡出现；1.3–2.6 s 聚合铺开；2.6–5 s 泡沫持续变化但不溢出。", caveat: "VideoCoCo 来源媒体的对外传播条款待核定；此例仅作研究展示。Depth 参考近乎全白，不能据此推断有效深度条件。" },
+      { id: "human_stand", name: "坐姿到站立", duration: 10, source: "COCO 2017 · 351530", image: "jpg", kind: "source still", scene: "公园长椅上的人物从交叉双腿的坐姿起身，其他人物与背景保持原位。", camera: "固定低视点，沿长椅方向", events: "双脚落地 → 身体前倾 → 扶椅发力 → 完全站立。" },
+      { id: "game_dodge", name: "侧移躲避", duration: 20, source: "ViZDoom · take_cover", image: "png", kind: "simulation RGB", scene: "第一人称房间内，敌人发射火球；玩家通过左右侧移躲避。", camera: "第一人称，仅水平侧移，不转头", events: "连续三轮投射与左右反向侧移，最终回到接近起始构图。" },
+      { id: "farm_chores", name: "农场事务", duration: 40, source: "WBench", image: "jpg", kind: "source still", scene: "长时序的农场任务，以稳定场景、实体与可观察动作组织事件。", camera: "任务指定视角", events: "按全局时间线切成八个 5 s 段；每段仅使用当前事件。" },
+      { id: "game_search", name: "游戏探索", duration: 60, source: "ViZDoom", image: "png", kind: "simulation RGB", scene: "游戏环境中的目标搜索与连续视角变化。", camera: "第一人称任务视角", events: "按全局时间线切成十二个 5 s 段；每段用上一段生成端点续接。" }
+    ];
+    const labels = { rgb: "RGB", depth: "Depth", object_id: "Object-ID" };
+    const tabs = document.getElementById("tabs");
+    const view = document.getElementById("case-view");
+    let selected = 0, representation = "rgb";
+    function tile(c, file, title, detail) {
+      return `<div class="video-tile"><video controls muted playsinline preload="metadata" src="media/${c.id}_${file}.mp4" aria-label="${title}"></video><div class="video-title">${title}</div><div class="caption">${detail}</div></div>`;
+    }
+    function render() {
+      const c = cases[selected];
+      tabs.innerHTML = cases.map((item, i) => `<button type="button" class="tab" role="tab" aria-selected="${i === selected}" tabindex="${i === selected ? 0 : -1}" data-index="${i}">${String(i + 1).padStart(2, "0")} · ${item.name} <span class="small">${item.duration}s</span></button>`).join("");
+      view.innerHTML = `<article class="case">
+        <div class="case-head"><h3>${c.name}</h3><span class="pill">${c.id}</span><span class="pill">${c.duration}s · ${c.duration / 5} × 5s</span></div>
+        <div class="source-row">
+          <figure><img src="media/${c.id}_source_image.${c.image}" alt="${c.name}的首帧条件"><figcaption>首段 RGB 条件图 · ${c.kind}</figcaption></figure>
+          <dl class="prompt-facts"><dt>来源</dt><dd>${c.source}</dd><dt>场景</dt><dd>${c.scene}</dd><dt>相机</dt><dd>${c.camera}</dd><dt>事件</dt><dd>${c.events}</dd><dt>续接</dt><dd>首段用源图；后续段用同模型上一段 RGB 端点帧。</dd></dl>
+        </div>
+        <div class="panel-head"><h4>参考与生成对照</h4><div class="segmented" role="group" aria-label="参考表示">${Object.entries(labels).map(([key, value]) => `<button type="button" aria-pressed="${key === representation}" data-representation="${key}">${value}</button>`).join("")}</div></div>
+        <div class="video-grid">
+          ${tile(c, `reference_${representation}`, `${labels[representation]} 参考`, "同一冻结场景 · 832 × 480 · 16 fps")}
+          ${representation === "rgb" ? tile(c, "wan3_rgb", "Wan3", "RGB 参考条件 · 24 fps") + tile(c, "vace_rgb", "VACE 1.3B", "RGB 参考条件 · 24 fps") : ""}
+        </div>
+        ${representation !== "rgb" ? `<p class="note">当前公开版仅展示 ${labels[representation]} 参考；相应模型输出留在内部完整矩阵中。</p>` : ""}
+        ${c.caveat ? `<p class="note">${c.caveat}</p>` : ""}
+      </article>`;
+    }
+    tabs.addEventListener("click", e => {
+      const button = e.target.closest("[data-index]");
+      if (!button) return;
+      selected = Number(button.dataset.index);
+      representation = "rgb";
+      render();
+      tabs.querySelector("[aria-selected=true]").focus();
+    });
+    tabs.addEventListener("keydown", e => {
+      if (!["ArrowLeft", "ArrowRight"].includes(e.key)) return;
+      e.preventDefault();
+      selected = (selected + (e.key === "ArrowRight" ? 1 : -1) + cases.length) % cases.length;
+      representation = "rgb";
+      render();
+      tabs.querySelector("[aria-selected=true]").focus();
+    });
+    view.addEventListener("click", e => {
+      const button = e.target.closest("[data-representation]");
+      if (!button) return;
+      representation = button.dataset.representation;
+      render();
+    });
+    render();
+  </script>
+</body>
+</html>
