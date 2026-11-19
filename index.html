@@ -95,7 +95,7 @@
       <div id="case-view" role="tabpanel"></div>
     </section>
     <footer>
-      Wan3 的 Depth / Object-ID 为普通参考视频输入，Wan2.1-VACE 1.3B 使用其视频条件接口；二者不是同一种原生控制。MiniMax-H3 输出因许可地区限制不在公开站点分发。COCO 图像 351530：<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>；ViZDoom / Freedoom 与 WBench 请参见各自来源许可。VideoCoCo 来源条款仍待核定；本页单种子展示不构成模型排序或正式评测。
+      Wan3 的 Depth / Object-ID 为普通参考视频输入，Wan2.1-VACE 1.3B 使用其视频条件接口，MiniMax-H3 使用图像与视频参考；三者不是同一种原生控制。H3 的 game_search 仅有未完成的旧整片，不能作为 60 秒结果。COCO 图像 351530：<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>；ViZDoom / Freedoom 与 WBench 请参见各自来源许可。VideoCoCo 来源条款仍待核定；本页单种子展示不构成模型排序或正式评测。
     </footer>
   </main>
   <script>
@@ -118,9 +118,17 @@
     }
     function modelTile(c, model) {
       const title = model === "wan3" ? "Wan3" : model === "vace" ? "Wan2.1-VACE 1.3B" : "MiniMax-H3";
-      if (model === "h3") return statusTile(title, "不在公开页分发", "许可地区限制；内部完整矩阵保留原始结果");
+      if (model === "h3" && c.id === "physics_boiling")
+        return statusTile(title, "来源条款待核", "VideoCoCo 的新增模型输出暂不公开");
       if (c.id === "physics_boiling" && representation !== "rgb")
         return statusTile(title, "来源条款待核", "VideoCoCo 的新媒体暂不增加公开分发");
+      if (model === "h3") {
+        const partialSeconds = { rgb: 57, depth: 57, object_id: 52 };
+        const detail = c.id === "game_search"
+          ? `图像与视频参考 · 未完成，约 ${partialSeconds[representation]}/60 秒`
+          : `${labels[representation]} 参考 · 图像与视频参考条件`;
+        return tile(c, `h3_${representation}`, c.id === "game_search" ? `${title} · 未完成` : title, detail);
+      }
       const mode = model === "wan3" ? "普通 reference_video 条件" : "VACE 原生视频条件";
       return tile(c, `${model}_${representation}`, title, `${labels[representation]} 参考 · ${mode}`);
     }
