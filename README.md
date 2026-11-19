@@ -3,10 +3,17 @@
 Static five-case prompt-to-reference-to-video showcase. Open `index.html` or
 serve the repository root as a GitHub Pages site.
 
-The page shows the current prompt construction, RGB / Depth / Object-ID
-references, and RGB-conditioned Wan3 and VACE outputs for 5, 10, 20, 40, and
-60-second cases. These are exploratory single-seed results, not a model ranking.
-H3 outputs are deliberately omitted from this public copy.
+The page shows the current prompt construction and RGB / Depth / Object-ID
+references for five 5–60-second cases. For the four cases with cleared source
+terms, each reference can be compared with existing Wan3 and Wan2.1-VACE-1.3B
+outputs. Wan3 receives an ordinary reference video; VACE uses its native video
+conditioning interface. These are exploratory single-seed results, not a model
+ranking or equalized-control comparison.
+
+MiniMax-H3 outputs are present only in the internal site because the H3
+Community License has territorial output-display restrictions. The VideoCoCo
+boiling case retains previously published RGB outputs, but its additional
+Depth/Object-ID model outputs are withheld pending source-rights review.
 
 The COCO source image 351530 is attributed under CC BY-SA 2.0. ViZDoom/Freedoom
 and WBench retain their source licenses. VideoCoCo source terms remain under
