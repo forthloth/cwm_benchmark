@@ -1,0 +1,164 @@
+{
+  "schema_version": "cwm_world_state_v1",
+  "prompt_id": "vizdoom-my_way_home-seed-2101-view-1",
+  "prompt_text": "A 60-second continuous first-person ViZDoom video with Freedoom textures, starting on a brown cobblestone floor facing a shallow gray paneled alcove with a brown brick wall on the left. In the first two seconds the player steps forward to the closed gray back wall. It then makes a large turn in place away from this dead end until an opening comes into view, and walks through it into an adjoining room with differently coloured walls. It keeps navigating the interconnected rooms, turning at corners and checking doorways, with no weapon, HUD or enemies. Late in the video a green armor vest appears on the floor ahead; the player centres it, walks straight to it and touches it in the final seconds, and the vest vanishes on contact as the video ends.",
+  "prompt_sha256": "a833941502bae70c72891a63b1b3727dab28de02fddf9f0a561eb9645345a7a0",
+  "task_source": {
+    "dataset": "ViZDoom",
+    "group_id": "vizdoom:my_way_home-seed-2101-view-1",
+    "grouping_version": 2,
+    "license": "ViZDoom original code MIT; Freedoom BSD-3-Clause; ZDoom component licenses",
+    "record_id": "my_way_home-seed-2101-view-1",
+    "source_duration_s": null,
+    "source_kind": "procedural_task",
+    "source_url": "https://vizdoom.farama.org/environments/default/",
+    "split_group_id": "vizdoom:my_way_home",
+    "version": "1.3.2",
+    "window_end_s": null,
+    "window_start_s": null
+  },
+  "motion_ground_truth_available": false,
+  "state_provenance": "agent_authored_blender_proxy",
+  "source_scene_sha256": "c2718f69b17110decc11d58434f5f9ced8dc92914c1216e2d43868ad551ac3d7",
+  "existing_passes_sha256": "2be97762ee82f61d57115c8dc45adf88cf3fa80d457ac0ffaffcc8f15f7236a6",
+  "timeline": {
+    "fps": 16.0,
+    "frame_start": 1,
+    "frame_end": 961,
+    "frame_count": 961,
+    "duration_s": 60.0,
+    "time_definition": "time_s=(frame-1)/fps; last frame is the endpoint"
+  },
+  "camera_intent": {
+    "motion": "Driven entirely by the player's navigation: forward walking, yaw turns left and right, and occasional strafing. There are no cuts and no third-person views.",
+    "viewpoint": "First-person eye-level view from the player in the Freedoom/ViZDoom engine, with level horizon and no pitch."
+  },
+  "initial_state_text": "The player stands still on the brown cobblestone floor, facing a gray paneled alcove whose closed back wall is only a short distance ahead. The right wall is unbroken gray panelling and no doorway is visible in the frame. A dark brown wooden post or door edge fills the left edge of the frame, with brown brick wall beside it. The green vest is not visible; the declared world state places it elsewhere in the map, beyond the visible walls.",
+  "final_state_text": "The player has left the gray paneled dead-end alcove, passed through connected rooms of other colours and reached the spot where the green vest was lying. The vest has been collected and is no longer on the floor. The view is still first person with Freedoom textures.",
+  "entities": [
+    {
+      "id": "player_view",
+      "description": "The first-person player agent whose eyes are the camera; it can only turn left or right, move forward and strafe. No body or weapon is visible.",
+      "initial_location_text": "Standing on the brown cobblestone floor facing the gray paneled alcove.",
+      "class": "agent",
+      "object_patterns": [
+        "@camera"
+      ]
+    },
+    {
+      "id": "green_vest",
+      "description": "Green armor vest pickup lying on the floor, the goal object of the task.",
+      "initial_location_text": "Out of view in another part of the map, behind the walls visible at the start.",
+      "class": "object",
+      "object_patterns": [
+        "green_vest"
+      ]
+    },
+    {
+      "id": "gray_alcove",
+      "description": "Shallow dead-end room section with light gray stone walls divided into rectangular panels, under a brown cobblestone ceiling.",
+      "initial_location_text": "Centre and right of the frame, straight ahead of the player.",
+      "class": "environment",
+      "object_patterns": [
+        "gray_alcove"
+      ]
+    },
+    {
+      "id": "brown_brick_wall",
+      "description": "Dark brown brick wall section with a nearby brown wooden post or door edge.",
+      "initial_location_text": "Left side of the frame, close to the player.",
+      "class": "environment",
+      "object_patterns": [
+        "brown_brick_wall",
+        "wood_post"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "event_00",
+      "start_s": 0,
+      "end_s": 2,
+      "entity_ids": [
+        "player_view",
+        "gray_alcove",
+        "brown_brick_wall"
+      ],
+      "description": "The player takes a few steps forward across the cobblestone floor into the gray paneled alcove and stops close to its closed back wall. The brown post and brick wall slide out of frame on the left.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_01",
+      "start_s": 2,
+      "end_s": 10,
+      "entity_ids": [
+        "player_view",
+        "gray_alcove",
+        "brown_brick_wall"
+      ],
+      "description": "Finding the alcove a dead end, the player makes a large yaw turn in place away from the gray back wall. The view sweeps across the gray panels and the brown brick section until an opening to another part of the map, outside the starting view, comes into frame.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_02",
+      "start_s": 10,
+      "end_s": 26,
+      "entity_ids": [
+        "player_view"
+      ],
+      "description": "The player walks out of the starting area and through the opening into a neighbouring room whose wall texture differs in colour from the gray alcove. It crosses that room with small turns and strafes to line up with the next doorway.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_03",
+      "start_s": 26,
+      "end_s": 46,
+      "entity_ids": [
+        "player_view"
+      ],
+      "description": "The player continues through one or more connected rooms, turning at corners and pausing to look into side openings before choosing a route. Wall, floor and ceiling textures stay stable and consistent as each room is entered and left.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_04",
+      "start_s": 46,
+      "end_s": 57,
+      "entity_ids": [
+        "player_view",
+        "green_vest"
+      ],
+      "description": "The green vest comes into view on the floor of a room ahead. The player turns to centre it and walks straight toward it, and the vest grows steadily larger in the frame.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_05",
+      "start_s": 57,
+      "end_s": 60,
+      "entity_ids": [
+        "player_view",
+        "green_vest"
+      ],
+      "description": "The player walks onto the green vest and collects it. The vest disappears from the floor at contact, and the video ends at or just after the pickup.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    }
+  ],
+  "representation_policy": {
+    "rgb_depth_object_id": "reuse_existing_full_frame_passes",
+    "whitebox_box_class": "render_from_same_scene_and_camera",
+    "skeleton": "rig_bones_only; unavailable when no armature",
+    "semantic_truth": "not_independently_verified"
+  },
+  "publication_note": "Agent-authored proxy, not source-ground-truth 3D or an executed game trajectory."
+}

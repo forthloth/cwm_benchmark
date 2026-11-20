@@ -1,0 +1,72 @@
+{
+  "schema_version": "cwm_world_state_verification_v1",
+  "prompt_id": "coco2017_val_000000351530_cov3_posture_balance_10s",
+  "state_frames": 161,
+  "preview_frames": [
+    1,
+    21,
+    41,
+    57,
+    81,
+    97,
+    121,
+    141,
+    161
+  ],
+  "preview_hashes": {
+    "whitebox": [
+      "9c99035a4e56c723eed6c59896e58affe0818ccaac955f0199b40d5273a73c90",
+      "7afe5169eca47ca376fe963bea20be1d1dce7e3fd89b7a666c172fa1df77219e",
+      "32c071ffcc9b15bcc935214136cf15bba7acb345e81908abaa900ce3e8f49517",
+      "d5013e2de0fc127ba0229e81d0a694423241e48210c0f748e26d11c59d52c3aa",
+      "c88ac036c187908a9d680565032e48225bbabb91d2464a9947326e31543d7a71",
+      "671572a7f6fad8ac10aa48a2f1e3a8b0f46764a8cd88ecc62bce05dcb7623d4b",
+      "bcb5ea8c963a25c22440f3c5a44bc7f890d7bb45b98ef69f26322929ce5ed666",
+      "d249a9434570c820aa3f2624c78245d49d6510756392a1c62accbcdced4da495",
+      "6b33f5a97bed397174695eee62486dfdf105205c1794f99351dc9c58f4c2230e"
+    ],
+    "box": [
+      "9fa6c9cdd9a15fc16bce4d8ef9d091dec5ecab24bd0b568edbcafbbca2c0f66f",
+      "38f947760f3106286299ebf41eaa8229e4de9901d99104bfa3e503f6a263bc34",
+      "6d144ad2be707546fe8eac828135cea8a22965a02b8c92e6f756d3f25a17ada3",
+      "8599128d838c8cdce4caf1c88aa7ed2b4244a54c889e41dfb09817934b7b856d",
+      "49fb612612e9575478d5fab0946756f00f7c780d54a7b4c3fcd6933c30b22d1a",
+      "cd110d1c759abd555cb2bd104993421b80dbbc9760310c1d3ba23a1c402c4680",
+      "f7f8b6173eadb1844c8f3acac6128467e0aeaaf5183a56ba34d11d19900295ea",
+      "dbf06fc76e5d018c0ef246d8b44edaabc2d2473b86c2afb829a1d309cceced74",
+      "3d1e98f52618f0637fc57702fd1e2b20c2ca08f049b58b8f6c620b52779f09bf"
+    ],
+    "class": [
+      "1ad152d9fe3953a3012de823f1c3846b8a12dbd19c3cd4c77e9a2439aa01af30",
+      "2f2f1e0859cc1fdd307f51cbe18928e891209b9405fafdc8740363956002cccc",
+      "bb6a44b0154704af193471ca134eea9c20e0585771fadb0522fc86c64fac11ee",
+      "ccd38d7fb09fb2073cdff65b0559230067f10bc5e521843d498b833f606849ca",
+      "49423ac39a728a4d60d4f87c8be434a3a8b443ec947f487b9ed3b09a8c634921",
+      "e11a79020b52c5c2da75188808d6c7c8e69e01103ca5a27301d110f1ebd98bdc",
+      "1be8b0922d86e9e88896c28550f21f65c6b7a551340a1cbbbebe2092ef7366d4",
+      "ea696445a19595ae6857d74be0a566b57a3552f93b7a7fce97a17a6b0beea089",
+      "718827aebe96695a120c98e7c7356140bfbe0b2dc170292ffa3d06e9f924b853"
+    ],
+    "skeleton": [
+      "b1efc0b7ea8da068bd8d4f49746071a3c4f1aa817a5d8c5397e0674420f7ec8a",
+      "26083665faa8f57e32dee177c5c2ad59b28562f6f515d1b5ce7f3f0f1c6d9626",
+      "13023bf97ead03806961b414fd44503944b6edb665c530e49a6dfbf4fab73388",
+      "a82d4088eff081bab7f766dde5823fc18aa2e2b3154fb5f5f3552eefd92d9396",
+      "c6291a27c9d11b479db9240c34c183b25cb6669a9879741c5562c4da3ad52314",
+      "36dc9a2260112f077dd62443bd3b9ab7f567bb4d387d396c29650d18a8e4ec58",
+      "a365ba4d8906cf24540fad21efb76793ddac36c947aad543ed82a67076bbf5fe",
+      "1fd024d90ffb132840ab885fed4d083bc31fd75780b74f321b716a7f09fbc07a",
+      "7a0d34f1a61dc5d8df45a799b89d7cb26c895dccb38c9af79686f763bc17f320"
+    ]
+  },
+  "skeleton_status": "available",
+  "moving_rigs": [
+    "woman_ponytail_rig",
+    "woman_white_rig"
+  ],
+  "camera_motion": false,
+  "first_time_s": 0.0,
+  "last_time_s": 10.0,
+  "errors": [],
+  "status": "pass"
+}

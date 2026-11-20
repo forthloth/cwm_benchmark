@@ -1,0 +1,191 @@
+{
+  "schema_version": "cwm_world_state_v1",
+  "prompt_id": "vizdoom-take_cover-seed-2100-view-0",
+  "prompt_text": "A 20-second first-person Freedoom-style game video. The camera faces a far brown brick wall across a gray room, with three red-headed imps standing along it: one left of center, one slightly right of center, one far right. The imps repeatedly throw glowing fireballs at the player. Without ever turning, the player sidesteps left for the first few seconds so the first fireballs fly past on the right, then sidesteps right across the room so the second volley passes on the left, then sidesteps left again back to roughly the starting position while later fireballs miss. The view stays first-person and facing the wall throughout, and the same three imps remain by the far wall at the end.",
+  "prompt_sha256": "15c4b486e573da5f0d90e0c735ac58818c88c041e90a841275a678a381f0c9b0",
+  "task_source": {
+    "dataset": "ViZDoom",
+    "group_id": "vizdoom:take_cover-seed-2100-view-0",
+    "grouping_version": 2,
+    "license": "ViZDoom original code MIT; Freedoom BSD-3-Clause; ZDoom component licenses",
+    "record_id": "take_cover-seed-2100-view-0",
+    "source_duration_s": null,
+    "source_kind": "procedural_task",
+    "source_url": "https://vizdoom.farama.org/environments/default/",
+    "split_group_id": "vizdoom:take_cover",
+    "version": "1.3.2",
+    "window_end_s": null,
+    "window_start_s": null
+  },
+  "motion_ground_truth_available": false,
+  "state_provenance": "agent_authored_blender_proxy",
+  "source_scene_sha256": "37003243dda0902f5887378e090e48b1bd097f3c2fdadba26904991627e397ac",
+  "existing_passes_sha256": "3ba4c7f54eed1b858a8d1dade22b2e628b944d21349dadcb92fba3a2636af1d7",
+  "timeline": {
+    "fps": 16.0,
+    "frame_start": 1,
+    "frame_end": 321,
+    "frame_count": 321,
+    "duration_s": 20.0,
+    "time_definition": "time_s=(frame-1)/fps; last frame is the endpoint"
+  },
+  "camera_intent": {
+    "motion": "Pure lateral sidestepping left and right with the player; no turning, pitching, or forward/backward movement, so the far wall stays frontal throughout",
+    "viewpoint": "First-person, eye-level view facing the far brick wall and the three imps"
+  },
+  "initial_state_text": "The player camera is stationary at eye level, facing the far brick wall head-on. Three imps stand along the base of the far wall: one left of center, one slightly right of center, and one near the right edge by the right side wall. No fireballs are in flight yet, and the player is at full health and has only left and right sidestep controls.",
+  "final_state_text": "The camera is back near its starting lateral position, still facing the far brick wall head-on. The three imps are still standing near the far wall in the same left, center and right order. The player is intended to have survived, with the room unchanged apart from any fireballs still in flight.",
+  "entities": [
+    {
+      "id": "player_1",
+      "description": "Unseen first-person player whose eyes are the camera; can only sidestep left or right",
+      "initial_location_text": "Near side of the room, facing the far brick wall",
+      "class": "agent",
+      "object_patterns": [
+        "@camera"
+      ]
+    },
+    {
+      "id": "imp_left",
+      "description": "Dark imp-like enemy with a red head, a fireball thrower",
+      "initial_location_text": "Left of center, standing at the base of the far brick wall",
+      "class": "agent",
+      "object_patterns": [
+        "imp_left",
+        "imp_left_arm"
+      ]
+    },
+    {
+      "id": "imp_center",
+      "description": "Dark imp-like enemy with a red head, a fireball thrower",
+      "initial_location_text": "Slightly right of center, standing at the base of the far brick wall",
+      "class": "agent",
+      "object_patterns": [
+        "imp_center",
+        "imp_center_arm"
+      ]
+    },
+    {
+      "id": "imp_right",
+      "description": "Dark imp-like enemy with a red head, a fireball thrower",
+      "initial_location_text": "Far right, at the base of the far wall near the right side wall",
+      "class": "agent",
+      "object_patterns": [
+        "imp_right",
+        "imp_right_arm"
+      ]
+    },
+    {
+      "id": "fireballs",
+      "description": "Glowing orange-red projectiles thrown by the imps toward the player",
+      "initial_location_text": "Not yet present; they originate at the imps along the far wall",
+      "class": "projectile",
+      "object_patterns": [
+        "fireball_*"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "event_00",
+      "start_s": 0,
+      "end_s": 2,
+      "entity_ids": [
+        "imp_left",
+        "imp_center",
+        "imp_right",
+        "fireballs"
+      ],
+      "description": "The imps play their attack animation and launch the first glowing fireballs from the far wall toward the player's position.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_01",
+      "start_s": 1,
+      "end_s": 5,
+      "entity_ids": [
+        "player_1"
+      ],
+      "description": "The player sidesteps left while still facing the far wall; the imps and brick wall slide to the right in view, and the left side wall draws nearer.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_02",
+      "start_s": 2,
+      "end_s": 5,
+      "entity_ids": [
+        "fireballs"
+      ],
+      "description": "The first fireballs grow larger as they approach, then pass off the right side of the view, missing the player.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_03",
+      "start_s": 5,
+      "end_s": 8,
+      "entity_ids": [
+        "imp_left",
+        "imp_center",
+        "imp_right",
+        "fireballs"
+      ],
+      "description": "The imps throw a second volley of fireballs aimed at the player's new position on the left side of the room.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_04",
+      "start_s": 6,
+      "end_s": 12,
+      "entity_ids": [
+        "player_1"
+      ],
+      "description": "The player reverses and sidesteps right across the room; the imps drift leftward in view, and the incoming fireballs pass off the left side of the frame.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_05",
+      "start_s": 11,
+      "end_s": 16,
+      "entity_ids": [
+        "imp_left",
+        "imp_center",
+        "imp_right",
+        "fireballs"
+      ],
+      "description": "The imps keep throwing fireballs toward the player's current position on the right side of the room.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_06",
+      "start_s": 14,
+      "end_s": 20,
+      "entity_ids": [
+        "player_1",
+        "fireballs"
+      ],
+      "description": "The player sidesteps left again, back toward the starting lateral position, as the last fireballs pass by on the right; the view returns to roughly the opening framing.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    }
+  ],
+  "representation_policy": {
+    "rgb_depth_object_id": "reuse_existing_full_frame_passes",
+    "whitebox_box_class": "render_from_same_scene_and_camera",
+    "skeleton": "rig_bones_only; unavailable when no armature",
+    "semantic_truth": "not_independently_verified"
+  },
+  "publication_note": "Agent-authored proxy, not source-ground-truth 3D or an executed game trajectory."
+}

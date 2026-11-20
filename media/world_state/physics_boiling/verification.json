@@ -1,0 +1,54 @@
+{
+  "schema_version": "cwm_world_state_verification_v1",
+  "prompt_id": "videococo_v3k_1552_boiling",
+  "state_frames": 81,
+  "preview_frames": [
+    1,
+    11,
+    21,
+    32,
+    41,
+    61,
+    62,
+    81
+  ],
+  "preview_hashes": {
+    "whitebox": [
+      "bb16d5a411b69005f73eee400e01775521a278a9889d27bb95a698dcf9175122",
+      "ff6d03598d7decb7948f1877a1fbd0119692652aa1394e125a2c126f54803eaf",
+      "a2d292c3ed3bc98d8f506bc432a1b937558c81e366dd83ac368cbce3a28dd5c0",
+      "9a590c1943a95b3f321d7dac50628ee617e3d3e2b60662bda14ef0c20bd94738",
+      "7c8fd4593b9fc3ebd558a160034c2b9124f22236dd321566140155cd9069a688",
+      "3136bc2992a87b7c99868c86163d1de996b5369ffc750601aed089abce9e3065",
+      "253c4a30af4d4159027a6f01389ece847ef0e3e4da67fe2cf5fab8a51bfab801",
+      "071c8a8c769f80a1c123b14a1652c6dc1258f45b507a5f5bb7795416cbe009ab"
+    ],
+    "box": [
+      "2d8311e2098fc552d9dd5dc71ba1b0ae7fd0d3d9aa4553cce5ce7aa55030869b",
+      "4c3a324f31d50c4282dba3f5b14a185fa70e3e6bdd7571816ca028c6350cfcb3",
+      "0fe2d52a5447bb01c092307b8989d476aeb6174db990a96f2d8e9dfc653ca436",
+      "f1e8cd414fae4bdce43136356ea2a152f42ef6c1b02f40a166c60c8512f56e0f",
+      "c193b76938892356965d241b7614826c7045c2f91322494e3435500e86b838c0",
+      "d3d561ea62ffb912657d09e6f042f10c326ffdb91a2927b1b4353eaf7a6828b3",
+      "1af9cd54a2f860f0792f973d08d4561b68316a212d087743e4e14a1276564b8d",
+      "1280bee7772b07a1b301996f7595585456762213e327d6479d243361b5a515a6"
+    ],
+    "class": [
+      "9dafafae93186194d1d9a156b3fba23c3fdb12853cbb77c2bf5ae7f78ba7693e",
+      "5b501ec779ad1f56c0db279626eefc4e7de21f9d79c2ea06aac2b81edaff4485",
+      "c3daa6650d1de1e2d10383ab5a7436076bd60764f26e301cb9f24715119660a2",
+      "66a07149a1819de01f404aa5cb36e1d51b1ad8e121ae83d4f485f597a82cfce2",
+      "9f63d799accdebab5f5acd9c524751d226952c3d556fb2d8d74b4a6505afee38",
+      "180e4927858459575ff6f19e45b2e64bb4abe502c5a08c6a11c9c26f3fcc0976",
+      "b96720b3ff8ddc488d1fe216a6093991665803b4e7ea56db4bad3d1ed5a0bb1a",
+      "5466d05b2460d39fec82ba95604df5d8bb30549f5cd0fcafeb1d739b7f2b0bc3"
+    ]
+  },
+  "skeleton_status": "not_applicable",
+  "moving_rigs": [],
+  "camera_motion": false,
+  "first_time_s": 0.0,
+  "last_time_s": 5.0,
+  "errors": [],
+  "status": "pass"
+}

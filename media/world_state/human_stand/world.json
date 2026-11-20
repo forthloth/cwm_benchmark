@@ -1,0 +1,170 @@
+{
+  "schema_version": "cwm_world_state_v1",
+  "prompt_id": "coco2017_val_000000351530_cov3_posture_balance_10s",
+  "prompt_text": "10-second static shot of a sunlit park path lined with a long row of dark wooden benches. At the far end, a woman in a white top and shorts sits with her legs crossed beside a seated woman with a blonde ponytail, sunglasses and a dark blue top. Over the first 2.5 seconds the woman in white uncrosses her legs and plants both sandaled feet on the pavement. She then puts a hand on the bench and leans forward, and from about 4.5 to 7.5 seconds she pushes up smoothly to stand fully upright in front of the bench. In the last seconds she takes one small settling step and turns slightly toward her companion, who stays seated and lifts her head a little. The benches, the bicycle parked in shade at left and the camera all stay still.",
+  "prompt_sha256": "2be14418f51b2bc903f0c29acfa0f827fd6a5c1d517969f9bca1d2bea71434cc",
+  "task_source": {
+    "dataset": "COCO",
+    "group_id": "coco2017_val_000000351530",
+    "license": "Attribution-ShareAlike License",
+    "license_url": "http://creativecommons.org/licenses/by-sa/2.0/",
+    "record_id": "351530",
+    "source_duration_s": null,
+    "source_kind": "authored_from_image",
+    "source_url": "https://s3.amazonaws.com/images.cocodataset.org/val2017/000000351530.jpg",
+    "version": "2017_val",
+    "window_end_s": null,
+    "window_start_s": null
+  },
+  "motion_ground_truth_available": false,
+  "state_provenance": "agent_authored_blender_proxy",
+  "source_scene_sha256": "e36d64cd7f95bc259c6b46ab321c6d850fd7d5d4e90a91789f4664ca18b71f8d",
+  "existing_passes_sha256": "bc7317c4a6c4624e7715b0350b1c553aa2eeaf856e6a5a1e38b7ba4420947b08",
+  "timeline": {
+    "fps": 16.0,
+    "frame_start": 1,
+    "frame_end": 161,
+    "frame_count": 161,
+    "duration_s": 10.0,
+    "time_definition": "time_s=(frame-1)/fps; last frame is the endpoint"
+  },
+  "camera_intent": {
+    "motion": "Locked off; no pan, tilt or zoom for the full 10 seconds",
+    "viewpoint": "Static, low eye-level telephoto view along the bench row from the path, with the seated women in the left-center midground and the nearer benches slightly out of focus at right"
+  },
+  "initial_state_text": "A woman in a white short-sleeved top and light shorts sits on the far bench with her legs crossed, one sandaled foot raised off the ground, leaning slightly forward with her hands near her raised leg. Beside her, a woman with a blonde ponytail, sunglasses and a dark blue top sits looking down at her lap. A third person in dark clothing is mostly hidden behind them. The nearer benches are empty. The bicycle stands upright and still in the shade at left, with a person in blue faintly visible behind it. The foreground pavement is bright and empty.",
+  "final_state_text": "The woman in white stands upright on both feet on the pavement directly in front of the spot where she was sitting, turned slightly toward her companion. The woman with the blonde ponytail is still seated on the bench with her head slightly raised. The benches, the bicycle and the background are unchanged, and the camera framing matches the first frame.",
+  "entities": [
+    {
+      "id": "woman_white",
+      "description": "Woman with light hair, white short-sleeved top, light shorts and sandals; the main actor who changes posture",
+      "initial_location_text": "Seated on the far bench, left of center, legs crossed toward the path",
+      "class": "human",
+      "object_patterns": [
+        "woman_white",
+        "woman_white_rig"
+      ]
+    },
+    {
+      "id": "woman_ponytail",
+      "description": "Woman with a blonde ponytail, sunglasses and a dark blue top; a seated companion who stays seated",
+      "initial_location_text": "Seated immediately to the right of the woman in white on the same bench",
+      "class": "human",
+      "object_patterns": [
+        "woman_ponytail",
+        "woman_ponytail_rig"
+      ]
+    },
+    {
+      "id": "hidden_person",
+      "description": "Partly occluded person in dark clothing with light shoes, sitting behind the two women",
+      "initial_location_text": "Behind and between the two seated women at the far end of the bench row",
+      "class": "human",
+      "object_patterns": [
+        "hidden_person"
+      ]
+    },
+    {
+      "id": "bench_row",
+      "description": "Long row of dark brown wooden benches with slatted backs and armrests; static support furniture",
+      "initial_location_text": "Receding from the right foreground to the center-left midground",
+      "class": "furniture",
+      "object_patterns": [
+        "bench_row"
+      ]
+    },
+    {
+      "id": "bicycle",
+      "description": "Light-framed bicycle parked upright in shade",
+      "initial_location_text": "Left edge of the frame, in front of the lattice structure",
+      "class": "vehicle",
+      "object_patterns": [
+        "bicycle"
+      ]
+    },
+    {
+      "id": "background_person",
+      "description": "Dimly visible person in a blue top standing in the shade",
+      "initial_location_text": "Far left, behind the bicycle",
+      "class": "human",
+      "object_patterns": [
+        "background_person"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "event_00",
+      "start_s": 0,
+      "end_s": 2.5,
+      "entity_ids": [
+        "woman_white"
+      ],
+      "description": "The woman in white uncrosses her legs and lowers her raised foot until both sandaled feet rest flat on the pavement in front of the bench.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_01",
+      "start_s": 2.5,
+      "end_s": 4.5,
+      "entity_ids": [
+        "woman_white",
+        "bench_row"
+      ],
+      "description": "She puts a hand on the bench seat or armrest beside her and leans her torso forward, bringing her weight over her feet while her hips are still on the seat.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_02",
+      "start_s": 4.5,
+      "end_s": 7.5,
+      "entity_ids": [
+        "woman_white",
+        "bench_row"
+      ],
+      "description": "She pushes up off the bench, straightening her knees and hips smoothly until she stands fully upright in front of it. Both feet stay planted and her hand leaves the bench as she rises.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_03",
+      "start_s": 7.5,
+      "end_s": 10,
+      "entity_ids": [
+        "woman_white",
+        "woman_ponytail"
+      ],
+      "description": "Standing in front of the bench, she takes one small settling step and turns slightly toward her companion. The woman with the ponytail stays seated and lifts her head a little toward her.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_04",
+      "start_s": 0,
+      "end_s": 10,
+      "entity_ids": [
+        "bench_row",
+        "bicycle",
+        "woman_ponytail",
+        "hidden_person"
+      ],
+      "description": "The benches and the parked bicycle stay stationary. The woman with the ponytail and the occluded person stay seated in their original places throughout.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    }
+  ],
+  "representation_policy": {
+    "rgb_depth_object_id": "reuse_existing_full_frame_passes",
+    "whitebox_box_class": "render_from_same_scene_and_camera",
+    "skeleton": "rig_bones_only; unavailable when no armature",
+    "semantic_truth": "not_independently_verified"
+  },
+  "publication_note": "Agent-authored proxy, not source-ground-truth 3D or an executed game trajectory."
+}

@@ -60,6 +60,25 @@
     .video-title { padding: 9px 11px 0; font-size: 13px; font-weight: 700; }
     .video-tile .caption { padding: 0 11px 10px; }
     .note { margin: 20px 0 0; padding: 10px 13px; border-left: 3px solid var(--copper); background: #fff7f2; color: #6e4436; font-size: 12px; }
+    .world-intro { max-width: 850px; color: var(--muted); font-size: 14px; }
+    .world-toolbar { display: flex; align-items: end; justify-content: space-between; gap: 16px; padding: 17px 0 13px; border-bottom: 1px solid var(--line); }
+    .world-toolbar strong { font-size: 17px; }
+    .world-toolbar .small { display: block; }
+    .frame-control { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; min-width: min(100%, 440px); font-size: 13px; }
+    .frame-control input { flex: 1; min-width: 140px; accent-color: var(--teal); }
+    .frame-control output { min-width: 150px; text-align: right; font-variant-numeric: tabular-nums; }
+    .state-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+    .state-grid figure { min-width: 0; border: 1px solid var(--line); background: var(--white); }
+    .state-grid a, .review-sheet a { display: block; }
+    .state-grid img { display: block; width: 100%; aspect-ratio: 832 / 480; object-fit: contain; background: #a3a4a3; }
+    .state-grid figcaption { padding: 8px 11px; color: var(--ink); font-size: 13px; font-weight: 650; }
+    .world-links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 17px; font-size: 13px; }
+    .world-links a { color: var(--blue); }
+    .pilot-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .pilot-grid img, .pilot-grid video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #101b25; }
+    .review-sheet { margin-top: 22px; }
+    .review-sheet img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+    .world-note { margin-top: 14px; color: var(--muted); font-size: 13px; }
     footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
     footer a { color: var(--blue); }
     @media (max-width: 1150px) {
@@ -71,6 +90,9 @@
       .source-row { grid-template-columns: 1fr; }
       .source-row img { max-height: 320px; }
       .video-grid, .video-grid.has-wan22 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pilot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .world-toolbar { align-items: start; flex-direction: column; }
+      .frame-control { width: 100%; }
     }
     @media (max-width: 540px) {
       .section-head, .panel-head { align-items: start; flex-direction: column; }
@@ -78,6 +100,9 @@
       .tab { text-align: left; border: 1px solid var(--line); border-radius: 3px; }
       .tab[aria-selected="true"] { box-shadow: inset 3px 0 var(--teal); }
       .video-grid, .video-grid.has-wan22 { grid-template-columns: 1fr; }
+      .state-grid { grid-template-columns: 1fr; }
+      .pilot-grid { grid-template-columns: 1fr; }
+      .frame-control output { min-width: 0; text-align: left; }
       .prompt-facts { grid-template-columns: 75px 1fr; }
     }
   </style>
@@ -98,6 +123,11 @@
       <div class="tabs" role="tablist" aria-label="实例" id="tabs"></div>
       <div id="case-view" role="tabpanel"></div>
     </section>
+    <section aria-labelledby="world-title" id="world-state">
+      <div class="section-head"><h2 id="world-title">统一世界状态</h2><span>与上方所选实例同步</span></div>
+      <p class="world-intro">同一场景、相机与时间轴导出逐帧实体状态；审核时间点对齐白模、框与类别表征。骨架只来自真实 rig。五例均已通过结构与画面审核。</p>
+      <div id="world-view"></div>
+    </section>
     <footer>
       Wan3 的 Depth / Object-ID 为普通参考视频输入，Wan2.1-VACE 1.3B 使用其视频条件接口，Wan2.2-VACE-Fun 仅展示沸腾案例的 RGB 控制视频加首帧试跑，MiniMax-H3 使用图像与视频参考；这些不是同一种原生控制。H3 的 game_search 仅有未完成的旧整片，不能作为 60 秒结果。COCO 图像 351530：<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>；ViZDoom / Freedoom 与 WBench 请参见各自来源许可。VideoCoCo 本例来源素材的公开展示已由项目方确认；本页单种子展示不构成模型排序或正式评测。
     </footer>
@@ -111,9 +141,19 @@
       { id: "game_search", name: "游戏探索", duration: 60, source: "ViZDoom", image: "png", kind: "simulation RGB", scene: "游戏环境中的目标搜索与连续视角变化。", camera: "第一人称任务视角", events: "按全局时间线切成十二个 5 s 段；每段用上一段生成端点续接。" }
     ];
     const labels = { rgb: "RGB", depth: "Depth", object_id: "Object-ID" };
+    const worldCases = {
+      physics_boiling: { stateFrames: 81, frames: [1, 11, 21, 32, 41, 61, 62, 81], skeleton: "not_applicable" },
+      human_stand: { stateFrames: 161, frames: [1, 21, 41, 57, 81, 97, 121, 141, 161], skeleton: "available" },
+      game_dodge: { stateFrames: 321, frames: [1, 17, 49, 57, 81, 105, 145, 161, 217, 241, 273, 321], skeleton: "not_applicable" },
+      farm_chores: { stateFrames: 641, frames: [1, 17, 81, 153, 161, 209, 297, 321, 385, 441, 481, 529, 617, 641], skeleton: "unavailable_no_rig" },
+      game_search: { stateFrames: 961, frames: [1, 17, 97, 241, 289, 481, 577, 721, 825, 937, 961], skeleton: "not_applicable" }
+    };
+    const worldLabels = { whitebox: "白模", box: "实体框", class: "语义类别", skeleton: "骨架" };
     const tabs = document.getElementById("tabs");
     const view = document.getElementById("case-view");
+    const worldView = document.getElementById("world-view");
     let selected = 0, representation = "rgb";
+    let worldFrameIndex = 0;
     function tile(c, file, title, detail) {
       return `<div class="video-tile"><video controls muted playsinline preload="metadata" src="media/${c.id}_${file}.mp4" aria-label="${title}"></video><div class="video-title">${title}</div><div class="caption">${detail}</div></div>`;
     }
@@ -155,12 +195,47 @@
         </div>
         ${c.caveat ? `<p class="note">${c.caveat}</p>` : ""}
       </article>`;
+      renderWorld();
+    }
+    function renderWorld() {
+      const c = cases[selected];
+      const world = worldCases[c.id];
+      const frame = world.frames[worldFrameIndex];
+      const base = `media/world_state/${c.id}`;
+      const reps = world.skeleton === "available"
+        ? ["whitebox", "box", "class", "skeleton"] : ["whitebox", "box", "class"];
+      worldView.innerHTML = `<div class="world-toolbar">
+        <div><strong>${c.name}</strong><span class="small">${world.stateFrames} 帧完整状态 · ${world.frames.length} 个审核时间点 · 16 fps</span></div>
+        <label class="frame-control">审核时间点
+          <input type="range" min="0" max="${world.frames.length - 1}" value="${worldFrameIndex}" aria-label="选择对齐审核帧">
+          <output>帧 ${frame} / ${world.stateFrames} · ${((frame - 1) / 16).toFixed(2)} s</output>
+        </label>
+      </div>
+      <div class="state-grid">${reps.map(rep => {
+        const image = `${base}/previews/${rep}/${String(frame).padStart(4, "0")}.png`;
+        return `<figure data-world-rep="${rep}"><a href="${image}" target="_blank" rel="noopener"><img src="${image}" alt="${c.name}第 ${frame} 帧的${worldLabels[rep]}表征" loading="lazy"></a><figcaption>${worldLabels[rep]}</figcaption></figure>`;
+      }).join("")}</div>
+      <div class="world-links">
+        <a href="${base}/world.json" download>世界定义 JSON</a>
+        <a href="${base}/frames.jsonl.gz" download>逐帧状态 JSONL.gz</a>
+        <a href="${base}/verification.json" download>校验报告</a>
+      </div>
+      ${c.id === "physics_boiling" ? `<div class="panel-head"><h4>Wan3 · 白模条件试跑</h4><span class="small">单例 · seed 17 · 5 s · 480P</span></div>
+      <div class="pilot-grid">
+        <figure class="video-tile"><img src="${base}/rgb_anchor.png" alt="沸腾试跑的 RGB 首图条件" loading="lazy"><figcaption>RGB 首图 · 沿用既有锚点</figcaption></figure>
+        <figure class="video-tile"><video controls muted playsinline preload="metadata" poster="${base}/previews/whitebox/0001.png" src="${base}/whitebox_reference.mp4" aria-label="白模参考视频"></video><figcaption>白模参考 · 16 fps</figcaption></figure>
+        <figure class="video-tile"><video controls muted playsinline preload="metadata" poster="${base}/wan3_poster.png" src="${base}/wan3_whitebox.mp4" aria-label="Wan3 白模条件生成视频"></video><figcaption>Wan3 生成 · 30 fps</figcaption></figure>
+      </div>
+      <p class="world-note">Wan3 接收普通 reference_image + reference_video，并非原生 3D 状态接口；本次只试跑沸腾一例，不能据此比较五例总体效果。</p>` : ""}
+      <figure class="review-sheet"><a href="${base}/review/overview.png" target="_blank" rel="noopener"><img src="${base}/review/overview.png" alt="${c.name}的多时间点对齐审核总览" loading="lazy"></a><figcaption>审核总览 · 点击查看原图</figcaption></figure>
+      <p class="world-note">${world.skeleton === "unavailable_no_rig" ? "农场人物没有 rig，不能生成可验证骨架。" : world.skeleton === "not_applicable" ? "本例无适用的人物 rig 骨架。" : "骨架来自两名动画人物的 rig；其余人物代理未绑定 rig。"} 这些是依据 prompt 构建的代理世界，不是原数据的 3D 真值或已执行的游戏轨迹。</p>`;
     }
     tabs.addEventListener("click", e => {
       const button = e.target.closest("[data-index]");
       if (!button) return;
       selected = Number(button.dataset.index);
       representation = "rgb";
+      worldFrameIndex = Math.floor(worldCases[cases[selected].id].frames.length / 2);
       render();
       tabs.querySelector("[aria-selected=true]").focus();
     });
@@ -169,6 +244,7 @@
       e.preventDefault();
       selected = (selected + (e.key === "ArrowRight" ? 1 : -1) + cases.length) % cases.length;
       representation = "rgb";
+      worldFrameIndex = Math.floor(worldCases[cases[selected].id].frames.length / 2);
       render();
       tabs.querySelector("[aria-selected=true]").focus();
     });
@@ -178,6 +254,23 @@
       representation = button.dataset.representation;
       render();
     });
+    worldView.addEventListener("input", e => {
+      if (!e.target.matches('input[type="range"]')) return;
+      worldFrameIndex = Number(e.target.value);
+      const c = cases[selected];
+      const world = worldCases[c.id];
+      const frame = world.frames[worldFrameIndex];
+      worldView.querySelector("output").textContent =
+        `帧 ${frame} / ${world.stateFrames} · ${((frame - 1) / 16).toFixed(2)} s`;
+      worldView.querySelectorAll("[data-world-rep]").forEach(figure => {
+        const rep = figure.dataset.worldRep;
+        const image = `media/world_state/${c.id}/previews/${rep}/${String(frame).padStart(4, "0")}.png`;
+        figure.querySelector("a").href = image;
+        figure.querySelector("img").src = image;
+        figure.querySelector("img").alt = `${c.name}第 ${frame} 帧的${worldLabels[rep]}表征`;
+      });
+    });
+    worldFrameIndex = Math.floor(worldCases[cases[selected].id].frames.length / 2);
     render();
   </script>
 </body>

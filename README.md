@@ -30,3 +30,12 @@ The COCO source image 351530 is attributed under CC BY-SA 2.0. ViZDoom/Freedoom
 and WBench retain their source licenses. The project owner's confirmation
 concerns public display of the VideoCoCo material in this showcase; it is
 not a general license for third-party reuse.
+
+The unified-world-state section adds five reviewed agent-authored Blender
+proxies. It includes aligned whitebox, box, and semantic-class checkpoints,
+rig-derived skeleton checkpoints for the human case, plus the full-rate
+per-frame state stream and verification report for each case. These are not
+source-ground-truth 3D or executed game trajectories. A separate Wan3
+whitebox-reference pilot for the five-second boiling case uses the existing
+RGB anchor and a full-rate whitebox reference video; it is not a native 3D
+control interface or a five-case evaluation.

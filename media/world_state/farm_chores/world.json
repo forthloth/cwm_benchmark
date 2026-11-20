@@ -1,0 +1,256 @@
+{
+  "schema_version": "cwm_world_state_v1",
+  "prompt_id": "wbench_189",
+  "prompt_text": "A 40-second oil-painting-style farmyard scene at dawn, seen in third person from behind and slightly above a farmer in a red plaid shirt, denim overalls and a straw hat; the camera follows him at natural speed with no cuts. 0-2 s: the rooster on the chicken coop roof crows. 2-8 s: the farmer walks to the coop on the left and opens its hinged door. 8-11 s: hens file out of the coop onto the ground. 11-15 s: the farmer scatters feed from the sack by the coop onto the ground. 15-22 s: he walks to the large red barn and slides its door open. 22-26 s: a brown horse steps out of the barn. 26-29 s: the farmer pats the horse on the neck. 29-37 s: he walks to the green vintage tractor on the right and climbs onto its seat. 37-40 s: the tractor engine starts, puffing black smoke from the exhaust pipe. The coop door and barn door stay open, and the hens and horse remain out in the yard, for the rest of the video.",
+  "prompt_sha256": "b0155ea76f582e71fe9624ebfb95e84f3dd40958f6a602473491635895dac3ad",
+  "task_source": {
+    "dataset": "WBench",
+    "group_id": "wbench/189",
+    "license": "MIT",
+    "record_id": "189",
+    "source_duration_s": null,
+    "source_kind": "benchmark_task",
+    "source_url": "https://modelscope.cn/datasets/meituan-longcat/WBench",
+    "version": "0cb648d982dee29db7e1ad57c2ee05e6e3b88c74",
+    "window_end_s": null,
+    "window_start_s": null
+  },
+  "motion_ground_truth_available": false,
+  "state_provenance": "agent_authored_blender_proxy",
+  "source_scene_sha256": "e655508cbfdc401ae13cc113f4da0eb10aa33c19e6f13ad780e92732ef543bb7",
+  "existing_passes_sha256": "431cc03e17383043910e23aee2dcd80a1d856c95afef4239c78233f95a91ce21",
+  "timeline": {
+    "fps": 16.0,
+    "frame_start": 1,
+    "frame_end": 641,
+    "frame_count": 641,
+    "duration_s": 40.0,
+    "time_definition": "time_s=(frame-1)/fps; last frame is the endpoint"
+  },
+  "camera_intent": {
+    "motion": "Follows the farmer smoothly from behind as he moves between the coop, barn and tractor, keeping him and each destination in frame; no cuts.",
+    "viewpoint": "Third-person view from behind and slightly above the farmer, who is centered in the lower frame."
+  },
+  "initial_state_text": "The farmer stands centered in the lower frame, seen from behind with his hands at his sides, facing the closed barn. A rooster is perched on the coop roof at left. The coop door and the barn door are both closed. No hens or horse are visible. A small pale object sits on the ground beside the coop. The tractor is parked at right with its upright exhaust pipe and steering wheel visible, no driver and no smoke.",
+  "final_state_text": "The farmer is seated on the green tractor, and black smoke rises from its exhaust pipe. The coop door is open, with hens out on the ground near the scattered feed. The barn's sliding door is open, and the brown horse stands outside in the yard. The dawn farmyard keeps its oil-painting look throughout.",
+  "entities": [
+    {
+      "id": "farmer",
+      "description": "Middle-aged farmer in a red plaid shirt, denim overalls and a straw hat, with a steady, unhurried gait; the controlled subject.",
+      "initial_location_text": "Centered in the lower foreground, back to the camera, facing the barn.",
+      "class": "human",
+      "object_patterns": [
+        "farmer_*"
+      ]
+    },
+    {
+      "id": "rooster",
+      "description": "Rooster with dark tail feathers, orange-red body and red comb.",
+      "initial_location_text": "Perched on the roof of the chicken coop, upper left.",
+      "class": "animal",
+      "object_patterns": [
+        "rooster_*"
+      ]
+    },
+    {
+      "id": "chicken_coop",
+      "description": "Small weathered wooden chicken coop with a pitched roof and a hinged front door, initially closed.",
+      "initial_location_text": "Left side of the frame, midground.",
+      "class": "structure",
+      "object_patterns": [
+        "coop_*"
+      ]
+    },
+    {
+      "id": "hens",
+      "description": "Several hens roosting inside the coop, hidden at the start.",
+      "initial_location_text": "Inside the closed chicken coop, not visible.",
+      "class": "animal",
+      "object_patterns": [
+        "hen_*"
+      ]
+    },
+    {
+      "id": "feed_sack",
+      "description": "Feed sack of grain by the coop, per the source description; a small pale object is visible beside the coop.",
+      "initial_location_text": "On the ground against the right side of the coop.",
+      "class": "object",
+      "object_patterns": [
+        "feed_sack",
+        "feed_sack_grain"
+      ]
+    },
+    {
+      "id": "barn",
+      "description": "Large red wooden barn with a gambrel roof and a wide sliding front door, initially closed.",
+      "initial_location_text": "Center background, directly ahead of the farmer.",
+      "class": "structure",
+      "object_patterns": [
+        "barn_*"
+      ]
+    },
+    {
+      "id": "horse",
+      "description": "Brown horse standing in a stall inside the barn, hidden at the start.",
+      "initial_location_text": "Inside the barn behind the closed sliding door, not visible.",
+      "class": "animal",
+      "object_patterns": [
+        "horse_*"
+      ]
+    },
+    {
+      "id": "tractor",
+      "description": "Green vintage tractor with large rear tires, a steering wheel, a seat and an upright metal exhaust pipe.",
+      "initial_location_text": "Right side of the frame, midground, parked on the dirt.",
+      "class": "vehicle",
+      "object_patterns": [
+        "tractor_*"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "event_00",
+      "start_s": 0,
+      "end_s": 2,
+      "entity_ids": [
+        "rooster",
+        "chicken_coop"
+      ],
+      "description": "The rooster on the coop roof stretches its neck upward and crows.",
+      "provenance": "source_event_order_plus_authored_timing",
+      "source_event_indices": [
+        0
+      ],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_01",
+      "start_s": 2,
+      "end_s": 8,
+      "entity_ids": [
+        "farmer",
+        "chicken_coop"
+      ],
+      "description": "The farmer walks at an unhurried pace to the chicken coop on the left and swings its hinged door open.",
+      "provenance": "source_event_order_plus_authored_timing",
+      "source_event_indices": [
+        1
+      ],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_02",
+      "start_s": 8,
+      "end_s": 11,
+      "entity_ids": [
+        "hens",
+        "chicken_coop"
+      ],
+      "description": "Hens file out through the open coop door onto the dirt ground.",
+      "provenance": "source_event_order_plus_authored_timing",
+      "source_event_indices": [
+        2
+      ],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_03",
+      "start_s": 11,
+      "end_s": 15,
+      "entity_ids": [
+        "farmer",
+        "feed_sack",
+        "hens"
+      ],
+      "description": "The farmer takes grain from the feed sack by the coop and scatters it on the ground near the hens.",
+      "provenance": "source_event_order_plus_authored_timing",
+      "source_event_indices": [
+        3
+      ],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_04",
+      "start_s": 15,
+      "end_s": 22,
+      "entity_ids": [
+        "farmer",
+        "barn"
+      ],
+      "description": "The farmer walks across the yard to the red barn and slides its large door open.",
+      "provenance": "source_event_order_plus_authored_timing",
+      "source_event_indices": [
+        4
+      ],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_05",
+      "start_s": 22,
+      "end_s": 26,
+      "entity_ids": [
+        "horse",
+        "barn"
+      ],
+      "description": "A brown horse steps out of the open barn doorway into the yard.",
+      "provenance": "source_event_order_plus_authored_timing",
+      "source_event_indices": [
+        5
+      ],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_06",
+      "start_s": 26,
+      "end_s": 29,
+      "entity_ids": [
+        "farmer",
+        "horse"
+      ],
+      "description": "The farmer pats the horse on the neck.",
+      "provenance": "source_event_order_plus_authored_timing",
+      "source_event_indices": [
+        6
+      ],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_07",
+      "start_s": 29,
+      "end_s": 37,
+      "entity_ids": [
+        "farmer",
+        "tractor"
+      ],
+      "description": "The farmer walks to the green tractor on the right and climbs up onto its seat.",
+      "provenance": "source_event_order_plus_authored_timing",
+      "source_event_indices": [
+        7
+      ],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_08",
+      "start_s": 37,
+      "end_s": 40,
+      "entity_ids": [
+        "tractor",
+        "farmer"
+      ],
+      "description": "The tractor engine starts and black smoke puffs from the upright exhaust pipe while the farmer sits on the seat.",
+      "provenance": "source_event_order_plus_authored_timing",
+      "source_event_indices": [
+        8
+      ],
+      "completion_verified_by_source": false
+    }
+  ],
+  "representation_policy": {
+    "rgb_depth_object_id": "reuse_existing_full_frame_passes",
+    "whitebox_box_class": "render_from_same_scene_and_camera",
+    "skeleton": "rig_bones_only; unavailable when no armature",
+    "semantic_truth": "not_independently_verified"
+  },
+  "publication_note": "Agent-authored proxy, not source-ground-truth 3D or an executed game trajectory."
+}

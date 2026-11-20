@@ -1,0 +1,124 @@
+{
+  "schema_version": "cwm_world_state_v1",
+  "prompt_id": "videococo_v3k_1552_boiling",
+  "prompt_text": "A 5-second static close-up, looking down at an angle into a shallow round gray pot with two ball-ended handles, filled with smooth pale aquafaba on a bright white surface. As the liquid boils, bubbles break the smooth surface and form rounded pale foam clusters, first in patches over part of the surface. Over about the first half of the clip, the patches grow and merge until dense froth covers nearly the whole surface inside the rim. For the rest of the clip, the foam layer keeps heaving and rearranging from the boiling underneath, staying inside the pot with no overflow. The pot, the background block and the camera do not move.",
+  "prompt_sha256": "e6590d0423d15eeb3515a0b51a14c46eb197e0088f1197a71e0e7fb5d13b3cf4",
+  "task_source": {
+    "dataset": "VideoCoCo",
+    "group_id": "videococo/v3k_1552_boiling",
+    "license": "local_reconstructed_corpus_source_terms_require_review",
+    "record_id": "v3k_1552_boiling",
+    "source_duration_s": 5.0625,
+    "source_kind": "simulation_reference",
+    "source_url": "https://intern-data-wlcb.oss-cn-wulanchabu.aliyuncs.com/videococo-preview/v3k/view",
+    "version": "5b46699af8f5e4a9acce7b1248484a87c29d5fd0bb8fade7dae4744e367871ef",
+    "window_end_s": 5.0625,
+    "window_start_s": 0.0
+  },
+  "motion_ground_truth_available": true,
+  "state_provenance": "agent_authored_blender_proxy",
+  "source_scene_sha256": "e13670e1a820c1ef6a143a31b304a3c63ba2ccac2b54539a6beff2d0813dedd5",
+  "existing_passes_sha256": "f424c5cdbe9e2123db61e08094032941292fb347855fcf58de0a73581d980f35",
+  "timeline": {
+    "fps": 16.0,
+    "frame_start": 1,
+    "frame_end": 81,
+    "frame_count": 81,
+    "duration_s": 5.0,
+    "time_definition": "time_s=(frame-1)/fps; last frame is the endpoint"
+  },
+  "camera_intent": {
+    "motion": "Static",
+    "viewpoint": "Close-up, high-angle three-quarter view looking down into the pot"
+  },
+  "initial_state_text": "The pot sits centered and stationary, viewed from above at an angle. Its liquid surface is smooth, flat and uniformly pale, with no foam and no clearly visible bubbles. Nothing is outside the pot except the background block.",
+  "final_state_text": "The pot is unmoved and its liquid surface is covered almost entirely by a dense layer of pale, rounded froth blobs contained within the rim. The foam surface is lumpy and still gently shifting. The background block and camera are unchanged.",
+  "entities": [
+    {
+      "id": "pot_1",
+      "description": "Shallow round gray pot (fondue-style) with a thick rounded rim and two ball-ended handles; the stationary container",
+      "initial_location_text": "Center of frame, filling most of the view; one handle at upper left, one at lower right",
+      "class": "object",
+      "object_patterns": [
+        "pot_1"
+      ]
+    },
+    {
+      "id": "liquid_1",
+      "description": "Pale, near-white liquid representing heated aquafaba, with a flat surface",
+      "initial_location_text": "Inside pot_1, filling it to just below the rim",
+      "class": "fluid",
+      "object_patterns": [
+        "liquid_1"
+      ]
+    },
+    {
+      "id": "foam_1",
+      "description": "Pale rounded bubble and froth blobs that form on the liquid surface and merge into a dense layer",
+      "initial_location_text": "Not present at t=0; emerges on the surface of liquid_1 inside the pot",
+      "class": "fluid",
+      "object_patterns": [
+        "foam_1"
+      ]
+    },
+    {
+      "id": "block_1",
+      "description": "Dark gray rectangular block, a static background object",
+      "initial_location_text": "Top center of frame, behind the pot",
+      "class": "background",
+      "object_patterns": [
+        "block_1"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "event_00",
+      "start_s": 0,
+      "end_s": 1.3,
+      "entity_ids": [
+        "liquid_1",
+        "foam_1",
+        "pot_1"
+      ],
+      "description": "Bubbles break through the smooth liquid surface and collect into rounded pale foam blobs. The blobs cluster mainly over the left and central areas, while parts of the right side and edges remain open liquid.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_01",
+      "start_s": 1.3,
+      "end_s": 2.6,
+      "entity_ids": [
+        "liquid_1",
+        "foam_1"
+      ],
+      "description": "The foam clusters enlarge, overlap and merge, spreading across the remaining open liquid until froth covers nearly the whole surface inside the rim.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    },
+    {
+      "id": "event_02",
+      "start_s": 2.6,
+      "end_s": 5,
+      "entity_ids": [
+        "foam_1",
+        "liquid_1",
+        "pot_1"
+      ],
+      "description": "The dense foam layer stays inside the pot and keeps shifting. Individual rounded blobs swell, move and rearrange as boiling continues underneath, with no overflow.",
+      "provenance": "authored_from_prompt",
+      "source_event_indices": [],
+      "completion_verified_by_source": false
+    }
+  ],
+  "representation_policy": {
+    "rgb_depth_object_id": "reuse_existing_full_frame_passes",
+    "whitebox_box_class": "render_from_same_scene_and_camera",
+    "skeleton": "rig_bones_only; unavailable when no armature",
+    "semantic_truth": "not_independently_verified"
+  },
+  "publication_note": "Agent-authored proxy, not source-ground-truth 3D or an executed game trajectory."
+}
