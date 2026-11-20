@@ -11,6 +11,23 @@ conditioning interface; H3 uses image and video references.
 These are exploratory single-seed results, not a model ranking or
 equalized-control comparison.
 
+Each case displays receipt-backed token usage and accumulated API time for
+the frozen prompt-v1 conversion and the Blender scene author. The prompt
+figures include only that case's accepted/revised calls, not the replaced
+WBench 185 candidate; output tokens include thinking tokens. Video-model
+figures are summed per-segment observed latencies by representation, not
+end-to-end wall-clock time. Wan3 includes provider queue/poll/download
+verification, VACE excludes model loading, and H3 includes queue/verification.
+The source ledgers are `prompt_suite_v1/runs/showcase_20261114_1350/converted/`
+and `artifacts/runs/prompt_showcase_videogen_20261115/report/metrics.json`
+on the main server (the latter captured 2026-11-17). H3 game_search has
+11/12 RGB and 10/12 Depth/Object-ID measured segments in that ledger;
+its old assembled videos are incomplete. Video runtimes did not return text
+tokens. The additional Wan2.2-VACE-Fun number is worker GPU claim through
+verified output, including load/I/O stalls, not isolated model inference.
+The independent Wan3 whitebox pilot has an output but no comparable
+receipt-backed latency measurement.
+
 The project owner confirmed permission to publish the H3 outputs and the
 VideoCoCo boiling source media on 2026-11-19. The available game_search H3 videos are partial older assemblies
 (about 57 seconds for RGB/Depth and 52 seconds for Object-ID), not complete

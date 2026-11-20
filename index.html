@@ -47,6 +47,19 @@
     .prompt-facts { display: grid; grid-template-columns: 105px 1fr; gap: 6px 16px; font-size: 13px; }
     .prompt-facts dt { color: var(--muted); }
     .prompt-facts dd { margin: 0; overflow-wrap: anywhere; }
+    .metrics-section { margin: 20px 0 6px; }
+    .metrics-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 10px; }
+    .metrics-heading h4 { margin: 0; font-size: 16px; }
+    .agent-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .agent-metric { padding: 9px 0; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+    .agent-metric strong { display: block; margin-bottom: 3px; font-size: 13px; }
+    .agent-metric span { display: block; }
+    .metrics-table-wrap { overflow-x: auto; margin-top: 10px; }
+    .metrics-table { width: 100%; min-width: 650px; border-collapse: collapse; font-variant-numeric: tabular-nums; text-align: left; }
+    .metrics-table th, .metrics-table td { padding: 8px 9px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    .metrics-table th { color: var(--muted); font-size: 12px; font-weight: 600; }
+    .metrics-table td:first-child { font-weight: 650; }
+    .metrics-foot { margin-top: 8px; color: var(--muted); font-size: 12px; }
     .panel-head { display: flex; justify-content: space-between; gap: 14px; align-items: center; margin: 24px 0 12px; }
     .panel-head h4 { margin: 0; font-size: 16px; }
     .segmented { display: inline-flex; border: 1px solid var(--line); background: var(--white); border-radius: 4px; padding: 3px; gap: 2px; }
@@ -104,6 +117,7 @@
       .pilot-grid { grid-template-columns: 1fr; }
       .frame-control output { min-width: 0; text-align: left; }
       .prompt-facts { grid-template-columns: 75px 1fr; }
+      .agent-metrics { grid-template-columns: 1fr; gap: 0; }
     }
   </style>
 </head>
@@ -141,6 +155,30 @@
       { id: "game_search", name: "游戏探索", duration: 60, source: "ViZDoom", image: "png", kind: "simulation RGB", scene: "游戏环境中的目标搜索与连续视角变化。", camera: "第一人称任务视角", events: "按全局时间线切成十二个 5 s 段；每段用上一段生成端点续接。" }
     ];
     const labels = { rgb: "RGB", depth: "Depth", object_id: "Object-ID" };
+    // Source: frozen prompt conversion receipts and 2026-11-17 showcase report/metrics.json.
+    // [calls, input tokens, output tokens, summed API seconds]; video cells are [verified segments, summed seconds].
+    const runMetrics = {
+      physics_boiling: {
+        prompt: [2, 16653, 4337, 50], blender: [2, 6829, 35724, 368],
+        video: { wan3: [[1, 110], [1, 140], [1, 124]], vace: [[1, 455], [1, 437], [1, 439]], h3: [[1, 3158], [1, 3156], [1, 3149]] }
+      },
+      human_stand: {
+        prompt: [2, 8327, 4150, 47], blender: [3, 11011, 139934, 1426],
+        video: { wan3: [[2, 252], [2, 329], [2, 255]], vace: [[2, 881], [2, 878], [2, 874]], h3: [[2, 6276], [2, 6276], [2, 6287]] }
+      },
+      game_dodge: {
+        prompt: [2, 8354, 8507, 94], blender: [2, 8357, 26122, 262],
+        video: { wan3: [[4, 509], [4, 632], [4, 438]], vace: [[4, 1748], [4, 1824], [4, 1752]], h3: [[4, 12532], [4, 15541], [4, 10885]] }
+      },
+      farm_chores: {
+        prompt: [2, 11309, 4624, 48], blender: [4, 35596, 260043, 2740],
+        video: { wan3: [[8, 954], [8, 900], [8, 1047]], vace: [[8, 3502], [8, 3494], [8, 3497]], h3: [[8, 25104], [8, 25103], [8, 25091]] }
+      },
+      game_search: {
+        prompt: [4, 19081, 12617, 138], blender: [2, 8499, 34639, 351],
+        video: { wan3: [[12, 1422], [12, 1457], [12, 1460]], vace: [[12, 5244], [12, 5243], [12, 5239]], h3: [[11, 27581], [10, 25189], [10, 25208]] }
+      }
+    };
     const worldCases = {
       physics_boiling: { stateFrames: 81, frames: [1, 11, 21, 32, 41, 61, 62, 81], skeleton: "not_applicable" },
       human_stand: { stateFrames: 161, frames: [1, 21, 41, 57, 81, 97, 121, 141, 161], skeleton: "available" },
@@ -176,6 +214,31 @@
       const mode = model === "wan3" ? "普通 reference_video 条件" : "VACE 原生视频条件";
       return tile(c, `${model}_${representation}`, title, `${labels[representation]} 参考 · ${mode}`);
     }
+    function clock(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const hours = Math.floor(minutes / 60);
+      return hours ? `${hours}h ${minutes % 60}m` : minutes ? `${minutes}m ${seconds % 60}s` : `${seconds}s`;
+    }
+    function renderMetrics(c) {
+      const m = runMetrics[c.id];
+      const agent = (title, values) => `<div class="agent-metric"><strong>${title}</strong><span>输入 ${values[1].toLocaleString()} / 输出 ${values[2].toLocaleString()} tokens</span><span class="small">${values[0]} 次调用 · API 耗时累计 ${clock(values[3])}</span></div>`;
+      const modelNames = { wan3: "Wan3", vace: "Wan2.1-VACE 1.3B", h3: "MiniMax-H3" };
+      const outputLengths = { wan3: "5.00 s", vace: "5.06 s", h3: "约 5.17 s" };
+      const rows = Object.entries(m.video).map(([model, reps]) => `<tr><td>${modelNames[model]}</td>${reps.map(([count, seconds]) => `<td>${count}/${c.duration / 5} 段 · ${clock(seconds)}</td>`).join("")}<td>${outputLengths[model]} / 段</td></tr>`).join("");
+      const wan22 = c.id === "physics_boiling" ? `<tr><td>Wan2.2-VACE-Fun</td><td>1/1 段 · 70m 37s*</td><td>—</td><td>—</td><td>5.06 s</td></tr>` : "";
+      return `<section class="metrics-section" aria-label="${c.name}运行指标">
+        <div class="metrics-heading"><h4>运行指标</h4><span class="small">Agent 输入 / 输出 tokens；视频栏为已核验分段的耗时累计</span></div>
+        <div class="agent-metrics">
+          ${agent("Prompt Agent · v1 构造与复审", m.prompt)}
+          ${agent("Blender 作者 Agent · 参考场景", m.blender)}
+        </div>
+        <div class="metrics-table-wrap"><table class="metrics-table">
+          <thead><tr><th scope="col">视频模型</th><th scope="col">RGB · 耗时</th><th scope="col">Depth · 耗时</th><th scope="col">Object-ID · 耗时</th><th scope="col">生成片长</th></tr></thead>
+          <tbody>${rows}${wan22}</tbody>
+        </table></div>
+        <p class="metrics-foot">逐次耗时相加，不等于整例墙钟：Wan3 提交至下载核验（含排队）；VACE 本地执行（不含模型加载）；H3 提交至核验（含排队）。视频模型未返回文本 token。${c.id === "game_search" ? "H3 仅有旧的未完成拼接，不能算作完整 60 s。" : ""}${c.id === "physics_boiling" ? " *Wan2.2 为 worker 占卡至结果核验，含加载与 I/O 等待，非纯推理耗时。" : ""}</p>
+      </section>`;
+    }
     function render() {
       const c = cases[selected];
       tabs.innerHTML = cases.map((item, i) => `<button type="button" class="tab" role="tab" aria-selected="${i === selected}" tabindex="${i === selected ? 0 : -1}" data-index="${i}">${String(i + 1).padStart(2, "0")} · ${item.name} <span class="small">${item.duration}s</span></button>`).join("");
@@ -185,6 +248,7 @@
           <figure><img src="media/${c.id}_source_image.${c.image}" alt="${c.name}的首帧条件"><figcaption>首段 RGB 条件图 · ${c.kind}</figcaption></figure>
           <dl class="prompt-facts"><dt>来源</dt><dd>${c.source}</dd><dt>场景</dt><dd>${c.scene}</dd><dt>相机</dt><dd>${c.camera}</dd><dt>事件</dt><dd>${c.events}</dd><dt>续接</dt><dd>首段用源图；后续段用同模型上一段 RGB 端点帧。</dd></dl>
         </div>
+        ${renderMetrics(c)}
         <div class="panel-head"><h4>参考与生成对照</h4><div class="segmented" role="group" aria-label="参考表示">${Object.entries(labels).map(([key, value]) => `<button type="button" aria-pressed="${key === representation}" data-representation="${key}">${value}</button>`).join("")}</div></div>
         <div class="video-grid ${c.id === "physics_boiling" && representation === "rgb" ? "has-wan22" : ""}">
           ${tile(c, `reference_${representation}`, `${labels[representation]} 参考`, "同一冻结场景 · 832 × 480 · 16 fps")}
@@ -226,7 +290,7 @@
         <figure class="video-tile"><video controls muted playsinline preload="metadata" poster="${asset("previews__whitebox__0001.png")}" src="${asset("whitebox_reference.mp4")}" aria-label="白模参考视频"></video><figcaption>白模参考 · 16 fps</figcaption></figure>
         <figure class="video-tile"><video controls muted playsinline preload="metadata" poster="${asset("wan3_poster.png")}" src="${asset("wan3_whitebox.mp4")}" aria-label="Wan3 白模条件生成视频"></video><figcaption>Wan3 生成 · 30 fps</figcaption></figure>
       </div>
-      <p class="world-note">Wan3 接收普通 reference_image + reference_video，并非原生 3D 状态接口；本次只试跑沸腾一例，不能据此比较五例总体效果。</p>` : ""}
+      <p class="world-note">Wan3 接收普通 reference_image + reference_video，并非原生 3D 状态接口；本次只试跑沸腾一例。成片 5.00 s；该独立试跑未记录可复核的提交至完成耗时或文本 token，不能据此比较五例总体效果。</p>` : ""}
       <figure class="review-sheet"><a href="${asset("review__overview.png")}" target="_blank" rel="noopener"><img src="${asset("review__overview.png")}" alt="${c.name}的多时间点对齐审核总览" loading="lazy"></a><figcaption>审核总览 · 点击查看原图</figcaption></figure>
       <p class="world-note">${world.skeleton === "unavailable_no_rig" ? "农场人物没有 rig，不能生成可验证骨架。" : world.skeleton === "not_applicable" ? "本例无适用的人物 rig 骨架。" : "骨架来自两名动画人物的 rig；其余人物代理未绑定 rig。"} 这些是依据 prompt 构建的代理世界，不是原数据的 3D 真值或已执行的游戏轨迹。</p>`;
     }
