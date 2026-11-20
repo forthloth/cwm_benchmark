@@ -53,6 +53,7 @@
     .segmented button { border: 0; border-radius: 3px; min-width: 85px; padding: 6px 9px; background: transparent; color: var(--muted); }
     .segmented button[aria-pressed="true"] { background: #e1f0ed; color: #075a56; font-weight: 700; }
     .video-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .video-grid.has-wan22 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     .video-tile { min-width: 0; background: var(--white); border: 1px solid var(--line); }
     .video-tile video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #101b25; }
     .unavailable { display: grid; place-items: center; aspect-ratio: 16 / 9; padding: 18px; background: #e9edee; color: #46565e; text-align: center; font-weight: 650; }
@@ -61,19 +62,22 @@
     .note { margin: 20px 0 0; padding: 10px 13px; border-left: 3px solid var(--copper); background: #fff7f2; color: #6e4436; font-size: 12px; }
     footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
     footer a { color: var(--blue); }
+    @media (max-width: 1150px) {
+      .video-grid.has-wan22 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
     @media (max-width: 850px) {
       header { align-items: start; flex-direction: column; }
       .meta { text-align: left; }
       .source-row { grid-template-columns: 1fr; }
       .source-row img { max-height: 320px; }
-      .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .video-grid, .video-grid.has-wan22 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 540px) {
       .section-head, .panel-head { align-items: start; flex-direction: column; }
       .tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .tab { text-align: left; border: 1px solid var(--line); border-radius: 3px; }
       .tab[aria-selected="true"] { box-shadow: inset 3px 0 var(--teal); }
-      .video-grid { grid-template-columns: 1fr; }
+      .video-grid, .video-grid.has-wan22 { grid-template-columns: 1fr; }
       .prompt-facts { grid-template-columns: 75px 1fr; }
     }
   </style>
@@ -95,12 +99,12 @@
       <div id="case-view" role="tabpanel"></div>
     </section>
     <footer>
-      Wan3 的 Depth / Object-ID 为普通参考视频输入，Wan2.1-VACE 1.3B 使用其视频条件接口，MiniMax-H3 使用图像与视频参考；三者不是同一种原生控制。H3 的 game_search 仅有未完成的旧整片，不能作为 60 秒结果。COCO 图像 351530：<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>；ViZDoom / Freedoom 与 WBench 请参见各自来源许可。VideoCoCo 本例来源素材的公开展示已由项目方确认；本页单种子展示不构成模型排序或正式评测。
+      Wan3 的 Depth / Object-ID 为普通参考视频输入，Wan2.1-VACE 1.3B 使用其视频条件接口，Wan2.2-VACE-Fun 仅展示沸腾案例的 RGB 控制视频加首帧试跑，MiniMax-H3 使用图像与视频参考；这些不是同一种原生控制。H3 的 game_search 仅有未完成的旧整片，不能作为 60 秒结果。COCO 图像 351530：<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>；ViZDoom / Freedoom 与 WBench 请参见各自来源许可。VideoCoCo 本例来源素材的公开展示已由项目方确认；本页单种子展示不构成模型排序或正式评测。
     </footer>
   </main>
   <script>
     const cases = [
-      { id: "physics_boiling", name: "沸腾与泡沫", duration: 5, source: "VideoCoCo · v3k_1552_boiling", image: "png", kind: "proxy frame", scene: "浅圆锅内的液体沸腾，泡沫由局部形成、合并并覆盖表面。", camera: "固定俯视三分之四视角", events: "0–1.3 s 气泡出现；1.3–2.6 s 聚合铺开；2.6–5 s 泡沫持续变化但不溢出。", caveat: "Depth 参考近乎全白，不能据此推断有效深度条件。Wan3 / VACE 的 Depth、Object-ID 输出尚未纳入本次公开展示。" },
+      { id: "physics_boiling", name: "沸腾与泡沫", duration: 5, source: "VideoCoCo · v3k_1552_boiling", image: "png", kind: "proxy frame", scene: "浅圆锅内的液体沸腾，泡沫由局部形成、合并并覆盖表面。", camera: "固定俯视三分之四视角", events: "0–1.3 s 气泡出现；1.3–2.6 s 聚合铺开；2.6–5 s 泡沫持续变化但不溢出。", caveat: "Depth 参考近乎全白，不能据此推断有效深度条件。Wan3 / VACE 的 Depth、Object-ID 输出尚未纳入本次公开展示。Wan2.2-VACE-Fun 仅有 RGB 单例试跑，非同接口模型排名。" },
       { id: "human_stand", name: "坐姿到站立", duration: 10, source: "COCO 2017 · 351530", image: "jpg", kind: "source still", scene: "公园长椅上的人物从交叉双腿的坐姿起身，其他人物与背景保持原位。", camera: "固定低视点，沿长椅方向", events: "双脚落地 → 身体前倾 → 扶椅发力 → 完全站立。" },
       { id: "game_dodge", name: "侧移躲避", duration: 20, source: "ViZDoom · take_cover", image: "png", kind: "simulation RGB", scene: "第一人称房间内，敌人发射火球；玩家通过左右侧移躲避。", camera: "第一人称，仅水平侧移，不转头", events: "连续三轮投射与左右反向侧移，最终回到接近起始构图。" },
       { id: "farm_chores", name: "农场事务", duration: 40, source: "WBench", image: "jpg", kind: "source still", scene: "长时序的农场任务，以稳定场景、实体与可观察动作组织事件。", camera: "任务指定视角", events: "按全局时间线切成八个 5 s 段；每段仅使用当前事件。" },
@@ -117,6 +121,8 @@
       return `<div class="video-tile"><div class="unavailable" role="status">${reason}</div><div class="video-title">${title}</div><div class="caption">${detail}</div></div>`;
     }
     function modelTile(c, model) {
+      if (model === "wan22")
+        return tile(c, "wan22_vace_fun_rgb", "Wan2.2-VACE-Fun A14B", "RGB 控制视频 + 首帧 · seed 17 · 5 s 试跑");
       const title = model === "wan3" ? "Wan3" : model === "vace" ? "Wan2.1-VACE 1.3B" : "MiniMax-H3";
       if (model === "h3") {
         const partialSeconds = { rgb: 57, depth: 57, object_id: 52 };
@@ -140,10 +146,11 @@
           <dl class="prompt-facts"><dt>来源</dt><dd>${c.source}</dd><dt>场景</dt><dd>${c.scene}</dd><dt>相机</dt><dd>${c.camera}</dd><dt>事件</dt><dd>${c.events}</dd><dt>续接</dt><dd>首段用源图；后续段用同模型上一段 RGB 端点帧。</dd></dl>
         </div>
         <div class="panel-head"><h4>参考与生成对照</h4><div class="segmented" role="group" aria-label="参考表示">${Object.entries(labels).map(([key, value]) => `<button type="button" aria-pressed="${key === representation}" data-representation="${key}">${value}</button>`).join("")}</div></div>
-        <div class="video-grid">
+        <div class="video-grid ${c.id === "physics_boiling" && representation === "rgb" ? "has-wan22" : ""}">
           ${tile(c, `reference_${representation}`, `${labels[representation]} 参考`, "同一冻结场景 · 832 × 480 · 16 fps")}
           ${modelTile(c, "wan3")}
           ${modelTile(c, "vace")}
+          ${c.id === "physics_boiling" && representation === "rgb" ? modelTile(c, "wan22") : ""}
           ${modelTile(c, "h3")}
         </div>
         ${c.caveat ? `<p class="note">${c.caveat}</p>` : ""}
