@@ -201,7 +201,7 @@
       const c = cases[selected];
       const world = worldCases[c.id];
       const frame = world.frames[worldFrameIndex];
-      const base = `media/world_state/${c.id}`;
+      const asset = name => `media/world_state__${c.id}__${name}`;
       const reps = world.skeleton === "available"
         ? ["whitebox", "box", "class", "skeleton"] : ["whitebox", "box", "class"];
       worldView.innerHTML = `<div class="world-toolbar">
@@ -212,22 +212,22 @@
         </label>
       </div>
       <div class="state-grid">${reps.map(rep => {
-        const image = `${base}/previews/${rep}/${String(frame).padStart(4, "0")}.png`;
+        const image = asset(`previews__${rep}__${String(frame).padStart(4, "0")}.png`);
         return `<figure data-world-rep="${rep}"><a href="${image}" target="_blank" rel="noopener"><img src="${image}" alt="${c.name}第 ${frame} 帧的${worldLabels[rep]}表征" loading="lazy"></a><figcaption>${worldLabels[rep]}</figcaption></figure>`;
       }).join("")}</div>
       <div class="world-links">
-        <a href="${base}/world.json" download>世界定义 JSON</a>
-        <a href="${base}/frames.jsonl.gz" download>逐帧状态 JSONL.gz</a>
-        <a href="${base}/verification.json" download>校验报告</a>
+        <a href="${asset("world.json")}" download>世界定义 JSON</a>
+        <a href="${asset("frames.jsonl.gz")}" download>逐帧状态 JSONL.gz</a>
+        <a href="${asset("verification.json")}" download>校验报告</a>
       </div>
       ${c.id === "physics_boiling" ? `<div class="panel-head"><h4>Wan3 · 白模条件试跑</h4><span class="small">单例 · seed 17 · 5 s · 480P</span></div>
       <div class="pilot-grid">
-        <figure class="video-tile"><img src="${base}/rgb_anchor.png" alt="沸腾试跑的 RGB 首图条件" loading="lazy"><figcaption>RGB 首图 · 沿用既有锚点</figcaption></figure>
-        <figure class="video-tile"><video controls muted playsinline preload="metadata" poster="${base}/previews/whitebox/0001.png" src="${base}/whitebox_reference.mp4" aria-label="白模参考视频"></video><figcaption>白模参考 · 16 fps</figcaption></figure>
-        <figure class="video-tile"><video controls muted playsinline preload="metadata" poster="${base}/wan3_poster.png" src="${base}/wan3_whitebox.mp4" aria-label="Wan3 白模条件生成视频"></video><figcaption>Wan3 生成 · 30 fps</figcaption></figure>
+        <figure class="video-tile"><img src="${asset("rgb_anchor.png")}" alt="沸腾试跑的 RGB 首图条件" loading="lazy"><figcaption>RGB 首图 · 沿用既有锚点</figcaption></figure>
+        <figure class="video-tile"><video controls muted playsinline preload="metadata" poster="${asset("previews__whitebox__0001.png")}" src="${asset("whitebox_reference.mp4")}" aria-label="白模参考视频"></video><figcaption>白模参考 · 16 fps</figcaption></figure>
+        <figure class="video-tile"><video controls muted playsinline preload="metadata" poster="${asset("wan3_poster.png")}" src="${asset("wan3_whitebox.mp4")}" aria-label="Wan3 白模条件生成视频"></video><figcaption>Wan3 生成 · 30 fps</figcaption></figure>
       </div>
       <p class="world-note">Wan3 接收普通 reference_image + reference_video，并非原生 3D 状态接口；本次只试跑沸腾一例，不能据此比较五例总体效果。</p>` : ""}
-      <figure class="review-sheet"><a href="${base}/review/overview.png" target="_blank" rel="noopener"><img src="${base}/review/overview.png" alt="${c.name}的多时间点对齐审核总览" loading="lazy"></a><figcaption>审核总览 · 点击查看原图</figcaption></figure>
+      <figure class="review-sheet"><a href="${asset("review__overview.png")}" target="_blank" rel="noopener"><img src="${asset("review__overview.png")}" alt="${c.name}的多时间点对齐审核总览" loading="lazy"></a><figcaption>审核总览 · 点击查看原图</figcaption></figure>
       <p class="world-note">${world.skeleton === "unavailable_no_rig" ? "农场人物没有 rig，不能生成可验证骨架。" : world.skeleton === "not_applicable" ? "本例无适用的人物 rig 骨架。" : "骨架来自两名动画人物的 rig；其余人物代理未绑定 rig。"} 这些是依据 prompt 构建的代理世界，不是原数据的 3D 真值或已执行的游戏轨迹。</p>`;
     }
     tabs.addEventListener("click", e => {
@@ -264,7 +264,7 @@
         `帧 ${frame} / ${world.stateFrames} · ${((frame - 1) / 16).toFixed(2)} s`;
       worldView.querySelectorAll("[data-world-rep]").forEach(figure => {
         const rep = figure.dataset.worldRep;
-        const image = `media/world_state/${c.id}/previews/${rep}/${String(frame).padStart(4, "0")}.png`;
+        const image = `media/world_state__${c.id}__previews__${rep}__${String(frame).padStart(4, "0")}.png`;
         figure.querySelector("a").href = image;
         figure.querySelector("img").src = image;
         figure.querySelector("img").alt = `${c.name}第 ${frame} 帧的${worldLabels[rep]}表征`;
